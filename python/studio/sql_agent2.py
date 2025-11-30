@@ -4,13 +4,34 @@ import pathlib
 import re
 
 import requests
-from langchain.agents import create_agent
+# from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
 from langchain_community.utilities import SQLDatabase
 from langchain_core.messages import SystemMessage
 from langchain_core.tools import tool
 
-llm = init_chat_model("openai:gpt-5")
+# llm = init_chat_model("openai:gpt-5")
+
+import os
+from langchain_openai import ChatOpenAI
+from langchain.agents import create_agent
+from pydantic import BaseModel
+
+# HF LLM wrapper
+llm = ChatOpenAI(
+    base_url="https://router.huggingface.co/v1",
+    api_key=os.environ["HF_TOKEN"],
+    model="moonshotai/Kimi-K2-Thinking:novita",
+    temperature=0.0,                # deterministic
+    top_p=0.1,                      # suppress long rambling
+    # max_tokens=2000,                 # <-- force short answers
+    # presence_penalty=0,
+    # frequency_penalty=0,
+    # Any custom HuggingFace router params:
+    extra_body={
+        "stop": ["Tool Calls:", "Thinking:", "<thinking>"],  # Stop thinking dumps
+    },
+)
 
 # database is from:
 # url = "https://storage.googleapis.com/benchmarks-artifacts/chinook/Chinook.db"

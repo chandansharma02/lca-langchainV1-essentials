@@ -6,3 +6,14 @@ langchain-community>=0.4.0
 jupyter>=1.0.0
 langgraph-cli[inmem]>=0.4.0
 langchain-mcp-adapters
+
+langchain-huggingface
+text-generation
+transformers
+google-search-results
+numexpr
+langchainhub
+sentencepiece
+jinja2
+bitsandbytes
+accelerate
